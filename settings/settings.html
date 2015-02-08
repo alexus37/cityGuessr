@@ -1,0 +1,43 @@
+<div class="container-fluid">
+	<div id="settings">
+		<div id="payermanagement">
+		<h4>Rounds</h4>
+		<input type="number" 
+				class="form-control"
+	                   ng-model="$parent.rounds"
+	                   step="1"
+	                   min="1"
+	                   ng-model-options="{ updateOn: 'blur' }">
+	    </div>
+	    <h4>Levels</h4>              
+	    <div class="btn-group">
+	        <label class="btn btn-primary" ng-model="$parent.level" btn-radio="'Germany'">Germany</label>
+	        <label class="btn btn-primary" ng-model="$parent.level" btn-radio="'Europe'">Europe</label>
+	        <label class="btn btn-primary" ng-model="$parent.level" btn-radio="'World'">World</label>
+	    </div>
+	    <h4>Players</h4>
+	    <table>
+			<tr ng-repeat="player in $parent.players">
+				<td style="width:25px">
+					<input type="radio" name="player" value="{{player}}" ng-model="$parent.selectedPlayer"></input>   
+				</td>
+				<td>
+					{{ player }}
+				</td>
+			</tr>
+	    </table>
+
+	    <div>
+	        <h4>Playername</h4>
+	        <div id="payermanagement">
+	            <input value="" name="playername" class="form-control" type="text"  ng-model="playername"/>
+	             <button style="margin-top: 5px;" class="btn btn-default" type="button" ng-click="insertPlayer()"/>Insert</button>
+	             <button style="margin-top: 5px;" type="button" class="btn btn-default" ng-click="deletePlayer()" >
+	             Deleteplayer </button>
+	        </div>
+	    </div>
+    </div>
+</div>
+
+
+    

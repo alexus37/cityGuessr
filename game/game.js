@@ -5,21 +5,19 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
 //configue the $routeProvider, that if the /view1 url is called that View1Ctrl is the current controller
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/game', {
-	templateUrl: 'game/game.html',
-	controller: 'gameCtrl'
+    templateUrl: 'game/game.html',
+    controller: 'gameCtrl'
   });
 }])
 
 /*
-	create a new controller View1Ctrl, which needs "$http", $scope", "$compile" and "leafletData" instances
+    create a new controller View1Ctrl, which needs "$http", $scope", "$compile" and "leafletData" instances
 */
 .controller('gameCtrl', [ "$scope", "leafletData", "$http", function($scope, leafletData, $http) {
 
-    $scope.rounds = 3;
-    $scope.curRound = 1;
-    $scope.players = ["Alex", "Jamina"];
-    $scope.level = "Europe"; //germany or World
-    $scope.playerPoints = [0, 0];
+   
+    
+    
     $scope.requestURL = "http://maps.googleapis.com/maps/api/geocode/json?address=";
     $scope.markers = new Array();
     $scope.playing = true;
@@ -28,6 +26,15 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
     $scope.usedCities = [];
     $scope.winnermsg =""
 
+    $scope.resetPoints = function(){
+        $scope.playerPoints = [];
+        $scope.curRound = 1;
+        for(var i = 0; i < $scope.$parent.players.length; i++) {
+            $scope.playerPoints.push(0);
+        }
+    }
+
+    $scope.resetPoints();
 
     $scope.layers =  {
         baselayers: {            
@@ -41,8 +48,9 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
 
 
     $scope.checkDist = function(){
-        if($scope.players.length != $scope.markers.length) {
+        if($scope.$parent.players.length != $scope.markers.length) {
             alert("Please let all players make a guess");
+            return;
         }
         var curCity = $scope.citiesEurope[$scope.currentIndex];
 
@@ -57,7 +65,7 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
 
         $scope.playerPoints[minIndex]++;
 
-        $scope.winnermsg = "The winner is " + $scope.players[minIndex] + " with a distance of " + Math.floor(distances[minIndex]) + " kilometers!";
+        $scope.winnermsg = "The winner is " + $scope.$parent.players[minIndex] + " with a distance of " + Math.floor(distances[minIndex]) + " kilometers!";
 
         $scope.playing = false;
 
@@ -65,16 +73,36 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
             lat: curCity.lat,
             lng: curCity.lng,
             message:  curCity.city,
-            draggable: false
+            draggable: false,
+            icon : {iconUrl: '../images/marker-icon-red.png',
+                    iconSize:     [25, 41], // size of the icon
+                    iconAnchor:   [12, 41], // point of the icon which will correspond to marker's location
+                    popupAnchor:  [0, -41] // point from which the popup should open relative to the iconAnchor
+                }
         });
 
 
     };
 
     $scope.nextRound = function() {
-        if($scope.curRound == $scope.rounds) {
-            var winIndex = $scope.playerPoints.indexOf(Math.min.apply(Math, $scope.playerPoints));
-            alert("The winner is " + $scope.players[winIndex]);
+        var msg = "";
+        if($scope.curRound >= $scope.$parent.rounds) {
+
+            var maxObj = getMax($scope.playerPoints);
+
+            if(maxObj.indezies.length == 1){
+                msg = "The winner is " + $scope.$parent.players[maxObj.indezies[0]];
+            } else {
+                msg = "There is a tie between ";
+                for(var i = 0; i < maxObj.indezies.length; i++) {
+                    msg += $scope.$parent.players[maxObj.indezies[i]];
+                    if(i != maxObj.indezies.length -1) {
+                        msg += " and ";
+                    }
+                }
+                
+            }
+            alert(msg);
         }
 
         $scope.markers = [];
@@ -88,14 +116,38 @@ angular.module('myApp.game', ['ngRoute','leaflet-directive', 'ui.bootstrap'])
         $scope.playing = true;
     }
 
+    function getMax(arr) {
+        var curMax = 0;
+        var indezies = [];
+
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i] > curMax) {
+                curMax = arr[i];
+                indezies = [];
+                indezies.push(i);
+            }
+            else if(arr[i] == curMax) {
+                indezies.push(i);
+            }
+        }
+        return {max : curMax,
+                indezies : indezies};
+    }
+
 
 
     function getRandomCity() {
         var limit = 0;
-        if($scope.level == "Europe") {
+        if($scope.$parent.level == "Europe") {
             limit = $scope.citiesEurope.length -1;
         }
-        //add for world and germany
+        if($scope.$parent.level == "World") {
+            alert("Not implemented jet");
+        }
+
+        if($scope.$parent.level == "Germany") {
+            alert("Not implemented jet");
+        }
 
         var index = 0;
         
@@ -145,18 +197,18 @@ function distance(lat1, lon1, lat2, lon2, unit) {
     });
 
     $scope.$on("leafletDirectiveMap.click", function(event, args){
-        if($scope.markers.length >= $scope.players.length) {
+        if($scope.markers.length >= $scope.$parent.players.length) {
             return;
         }
         var leafEvent = args.leafletEvent;
         $scope.markers.push({
             lat: leafEvent.latlng.lat,
             lng: leafEvent.latlng.lng,
-            message:  $scope.players[$scope.markers.length] + "s guess for " + $scope.currentCity,
+            message:  $scope.$parent.players[$scope.markers.length] + "s guess for " + $scope.currentCity,
             draggable: true
         });
     });
-	
+    
  
  
 

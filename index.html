@@ -11,15 +11,19 @@
 
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="bower_components/leaflet.draw/dist/leaflet.draw.css" />       
+  <link rel="stylesheet" href="bower_components/leaflet.draw/dist/leaflet.draw.css" /> 
+  <link href="style.css" rel="stylesheet" type="text/css" />    
     
 
 </head>
 <body ng-controller="MainCtrl">
-  <ul class="menu">
-    <li><a href="#/game">game</a></li>
-    
-  </ul>
+	<div id="navigation">
+		<ul>
+			<li><<a href="#/game">Game</a></li>
+		    <li><<a href="#/settings">settings</a></li>
+		</ul>
+	</div> 
+
 
   <div ng-view></div>
 
@@ -39,7 +43,9 @@
   <script src="bower_components/leaflet-plugins/layer/tile/Google.js"></script>
 
   <script src="app.js"></script>
+  <script src="settings/settings.js"></script>
   <script src="game/game.js"></script>
+
 
 </body>
 </html>

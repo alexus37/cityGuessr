@@ -3,7 +3,8 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
-  'myApp.game'
+  'myApp.game',
+  'myApp.settings'
 ])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -11,6 +12,10 @@ angular.module('myApp', [
 }])
 
 .controller('MainCtrl', function($scope, $http, $location) {
+	$scope.rounds = 3;
+    $scope.players = ["Alex", "Jamina"];
+    $scope.level = "Europe"; //germany or World
+
 	$scope.viewModel = 'game';
     $scope.server = "http://"+location.host;
 

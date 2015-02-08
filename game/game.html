@@ -1,12 +1,18 @@
 <div class="container-fluid">
-    <span> Find the city {{currentCity}}</span>
-    <span>{{winnermsg}}</span>
-    <div class="col-md-6">
-        <leaflet center="berlin" layers="layers" markers="markers" event-broadcast="events" height="400"></leaflet>
+    <div id="titles">
+      <h4>Find the city {{currentCity}}<h4>
+      <h4>{{winnermsg}}<h4>
     </div>
-     <button type="button" class="btn btn-default"  ng-click="checkDist()" ng-show="playing">Submit</button>
-     <button type="button" class="btn btn-default" ng-click="nextRound()" ng-hide="playing">Begin next round</button>
-  
+    <div id="mapContainer">
+        <leaflet center="berlin" layers="layers" markers="markers" event-broadcast="events" height="500" width="950"></leaflet>
+    </div>
+    <div >
+    <div id="buttons">
+      <button type="button" class="btn btn-default"  ng-click="checkDist()" ng-show="playing">Submit</button>
+      <button type="button" class="btn btn-default" ng-click="nextRound()" ng-hide="playing">Begin next round</button>
+      <button type="button" class="btn btn-default"  ng-click="resetPoints()" >Restart the game</button>
+    </div>
+    </div>
 </div>
 
 
