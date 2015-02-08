@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.*~
+bower_components/
 
 # C extensions
 *.so

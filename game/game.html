@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <span> Find the city {{currentCity}}</span>
+    <span>{{winnermsg}}</span>
+    <div class="col-md-6">
+        <leaflet center="berlin" layers="layers" markers="markers" event-broadcast="events" height="400"></leaflet>
+    </div>
+     <button type="button" class="btn btn-default"  ng-click="checkDist()" ng-show="playing">Submit</button>
+     <button type="button" class="btn btn-default" ng-click="nextRound()" ng-hide="playing">Begin next round</button>
+  
+</div>
+
+
+    

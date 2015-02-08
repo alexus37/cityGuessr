@@ -1,0 +1,18 @@
+{
+  "name": "cityGuessr",
+  "description": "little game",
+  "version": "0.0.1",
+  "homepage": "https://github.com/alexus37/cityGuessr",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "angular": "1.3.x",
+    "angular-route": "1.2.27",
+    "leaflet": "0.7.3",
+    "angular-leaflet-directive": "0.7.11",
+    "angular-bootstrap": "0.11.0",
+    "leaflet.draw": "0.2.3",
+    "leaflet-plugins": "1.2.1",
+    "bootstrap": "3.3.1"
+  }
+}
